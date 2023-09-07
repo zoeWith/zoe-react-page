@@ -8,7 +8,6 @@ import { useState, useEffect } from 'react';
 
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
-    const [errorSubMenu, setErrorSubMenu] = useState(false);
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const location = useLocation();
     const dispatch = useDispatch();
@@ -39,7 +38,6 @@ const Sidebar = () => {
         if (window.innerWidth < 1024 && themeConfig.sidebar) {
             dispatch(toggleSidebar());
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
     return (
@@ -61,7 +59,7 @@ const Sidebar = () => {
                     </div>
                     <PerfectScrollbar className="h-[calc(100vh-80px)] relative">
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
-                            <h2 className="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
+                            <h2 className="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 -mx-4 mb-1">
                                 <svg className="w-4 h-5 flex-none hidden" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                 </svg>
@@ -69,7 +67,7 @@ const Sidebar = () => {
                             </h2>
 
                             <li className="menu nav-item">
-                                <NavLink to="/user/profile" target="_blank" className="nav-link group">
+                                <NavLink to="/" target="_blank" className="nav-link group">
                                     <div className="flex items-center">
                                         <svg className="group-hover:!text-primary shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <circle opacity="0.5" cx="15" cy="6" r="3" fill="currentColor" />
@@ -77,7 +75,7 @@ const Sidebar = () => {
                                             <circle cx="9.00098" cy="6" r="4" fill="currentColor" />
                                             <ellipse cx="9.00098" cy="17.001" rx="7" ry="4" fill="currentColor" />
                                         </svg>
-                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">프로필</span>
+                                        <span className="ltr:pl-3 text-black">프로필</span>
                                     </div>
                                 </NavLink>
                             </li>
