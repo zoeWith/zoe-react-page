@@ -1,16 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import themeConfig from '../theme.config';
 
-const defaultState = {
-    mainLayout: 'app',
+const initialState = {
     layout: 'full',
     sidebar: false,
-    pageTitle: '',
-};
-
-const initialState = {
-    layout: localStorage.getItem('layout') || themeConfig.layout,
-    sidebar: localStorage.getItem('sidebar') || defaultState.sidebar,
 };
 
 const themeConfigSlice = createSlice({
