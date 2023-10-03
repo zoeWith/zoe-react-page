@@ -6,6 +6,8 @@ import { ReactComponent as ThumbsupIcon } from '../../assets/icon/thumbup.svg';
 import { ReactComponent as TrashIcon } from '../../assets/icon/trash.svg';
 import { ReactComponent as PlusIcon } from '../../assets/icon/plus.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icon/search.svg';
+import { ReactComponent as ChevronBackIcon } from '../../assets/icon/chevron-back.svg';
+import { ReactComponent as ChevronForwardIcon } from '../../assets/icon/chevron-forward.svg';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../../store/themeConfigSlice';
 
@@ -417,7 +419,31 @@ const Todolist = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-1 items-center justify-center sm:justify-end sm:flex-auto"></div>
+                            <div className="flex flex-1 items-center justify-center sm:justify-end sm:flex-auto">
+                                <p className="mr-3">{pager.startIndex + 1 + '-' + (pager.endIndex + 1) + ' of ' + filteredTasks.length}</p>
+                                <button
+                                    type="button"
+                                    disabled={pager.currentPage === 1}
+                                    className="bg-[#f4f4f4] rounded-md p-1 enabled:hover:bg-primary-light mr-3 disabled:opacity-60 disabled:cursor-not-allowed"
+                                    onClick={() => {
+                                        pager.currentPage--;
+                                        searchTasks(false);
+                                    }}
+                                >
+                                    <ChevronBackIcon />
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={pager.currentPage === pager.totalPages}
+                                    className="bg-[#f4f4f4] rounded-md p-1 enabled:hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed"
+                                    onClick={() => {
+                                        pager.currentPage++;
+                                        searchTasks(false);
+                                    }}
+                                >
+                                    <ChevronForwardIcon />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
