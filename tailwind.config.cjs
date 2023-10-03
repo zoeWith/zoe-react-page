@@ -97,4 +97,5 @@ module.exports = {
         require('@tailwindcss/typography'),
         rotateX,
     ],
+    mode: "jit", //calc 사용
 };
