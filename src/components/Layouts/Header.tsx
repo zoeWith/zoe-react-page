@@ -68,7 +68,7 @@ const Header = () => {
                     <div className="horizontal-logo flex lg:hidden justify-between items-center mr-2">
                         <Link to="/" className="main-logo flex items-center shrink-0">
                             <img className="w-8 -ml-1 inline" src="/assets/images/logo.svg" alt="logo" />
-                            <span className="text-2xl ml-1.5 font-semibold align-middle hidden md:inline transition-all duration-300">VRISTO</span>
+                            <span className="text-2xl ml-1.5 font-semibold align-middle hidden md:inline transition-all duration-300">HeeJ</span>
                         </Link>
                         <button
                             type="button"
@@ -218,16 +218,16 @@ const Header = () => {
                                 offset={[0, 8]}
                                 placement={'bottom-end'}
                                 btnClassName="relative group block"
-                                button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="/src/assets/images/푸바오.png" alt="userProfile" />}
+                                button={<img className="w-9 h-9 rounded-full object-cover saturate-50 group-hover:saturate-100" src="/assets/images/푸바오.png" alt="userProfile" />}
                             >
                                 <ul className="text-dark !py-0 w-[230px] font-semibold">
                                     <li>
                                         <div className="flex items-center px-4 py-4">
-                                            <img className="rounded-md w-10 h-10 object-cover" src="src/assets/images/푸바오.png" alt="userProfile" />
+                                            <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/푸바오.png" alt="userProfile" />
                                             <div className="pl-4 truncate">
                                                 <h4 className="text-base">
                                                     Hee Jeong
-                                                    <span className="text-xs bg-success-light rounded text-success px-1 ml-2">Pro</span>
+                                                    <span className="text-xs bg-success-light rounded text-success px-1 ml-2">Mng</span>
                                                 </h4>
                                                 <button type="button" className="text-black/60 hover:text-primary">
                                                     gmlwjd7879@naver.com

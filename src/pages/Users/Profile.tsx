@@ -49,7 +49,7 @@ const Profile = () => {
                         </div>
                         <div className="mb-5">
                             <div className="flex flex-col justify-center items-center">
-                                <img src="src/assets/images/profile.jpg" alt="img" className="w-24 h-24 rounded-full object-cover  mb-5" />
+                                <img src="/assets/images/profile.jpg" alt="img" className="w-24 h-24 rounded-full object-cover  mb-5" />
                                 <p className="font-semibold text-primary text-xl">Kim Heejeong</p>
                             </div>
                             <ul className="mt-5 flex flex-col max-w-[160px] m-auto space-y-4 font-semibold text-white-dark">

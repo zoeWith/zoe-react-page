@@ -10,6 +10,8 @@ import { ReactComponent as ChevronBackIcon } from '../../assets/icon/chevron-bac
 import { ReactComponent as ChevronForwardIcon } from '../../assets/icon/chevron-forward.svg';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from '../../store/themeConfigSlice';
+import Dropdown from '../../components/Dropdown';
+import { setPriority } from 'os';
 
 const Todolist = () => {
     const dispatch = useDispatch();
@@ -31,6 +33,7 @@ const Todolist = () => {
     const [selectedTab, setSelectedTab] = useState('');
     const [isShowTaskMenu, setIsShowTaskMenu] = useState(false);
     const [addTaskModal, setAddTaskModal] = useState(false);
+    const [viewTaskModal, setViewTaskModal] = useState(false);
     const [params, setParams] = useState<any>(JSON.parse(JSON.stringify(defaultParams)));
 
     const [allTasks, setAllTasks] = useState([
@@ -136,6 +139,8 @@ const Todolist = () => {
     const [filteredTasks, setFilteredTasks] = useState<any>(allTasks);
     const [pagedTasks, setPagedTasks] = useState<any>(filteredTasks);
     const [searchTask, setSearchTask] = useState<any>('');
+    const [selectedTask, setSelectedTask] = useState<any>(defaultParams);
+    const [isPriorityMenu] = useState<any>(null);
 
     const [pager] = useState<any>({
         currentPage: 1,
@@ -149,8 +154,39 @@ const Todolist = () => {
         searchTasks();
     }, [selectedTab, searchTask, allTasks]);
 
+    const setPriority = (task: any, name: string = '') => {
+        let item = filteredTasks.find((d: any) => d.id === task.id);
+        item.priority = name;
+        searchTask(false);
+    };
+
+    const setTag = (task: any, name: string = '') => {
+        let item = filteredTasks.find((d: any) => d.id === task.id);
+        item.tag = name;
+        searchTask(false);
+    };
+
     const tabChanged = () => {
         setIsShowTaskMenu(false);
+    };
+
+    const taskComplete = (task: any = null) => {
+        let item = filteredTasks.find((d: any) => d.id === task.id);
+        item.status = item.status === 'complete' ? '' : 'complete';
+        searchTasks(false);
+    };
+
+    const setImpertant = (task: any = null) => {
+        let item = filteredTasks.find((d: any) => d.id === task.id);
+        item.status = item.status === 'important' ? '' : 'important';
+        searchTasks(false);
+    };
+
+    const viewTask = (item: any = null) => {
+        setSelectedTab(item);
+        setTimeout(() => {
+            setViewTaskModal(true);
+        });
     };
 
     const searchTasks = (isResetPage = true) => {
@@ -445,6 +481,141 @@ const Todolist = () => {
                                 </button>
                             </div>
                         </div>
+
+                        <div className="h-px w-full border-b border-white-light"></div>
+
+                        {pagedTasks.length ? (
+                            <div className="table-responsive grow overflow-y-auto sm:min-h-[300px] min-h-[400px]">
+                                <table className="table-hover">
+                                    <tbody>
+                                        {pagedTasks.map((task: any) => {
+                                            return (
+                                                <tr className={`group cursor-pointer ${task.status === 'complete' ? 'bg-white-light/30' : ''}`} key={task.id}>
+                                                    <td>
+                                                        <input
+                                                            type="checkbox"
+                                                            id={`chk-${task.id}`}
+                                                            className="form-checkbox"
+                                                            disabled={selectedTab === 'trash'}
+                                                            onClick={() => taskComplete(task)}
+                                                            defaultChecked={task.status === 'complete'}
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <div onClick={() => viewTask(task)}>
+                                                            <div className={`group-hover:text-primary font-semibold text-base whitespace-nowrap ${task.status === 'complete' ? 'line-through' : ''}`}>
+                                                                {task.title}
+                                                            </div>
+                                                            <div className={`text-white-dark overflow-hidden min-w-[300px] line-clamp-1 ${task.status === 'complete' ? 'line-through' : ''}`}>
+                                                                {task.descriptionText}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="w-1">
+                                                        <div className="flex items-center justify-end space-x-2">
+                                                            {task.priority && (
+                                                                <div className="dropdown">
+                                                                    <Dropdown
+                                                                        offset={[0, 5]}
+                                                                        placement="bottom-end"
+                                                                        btnClassName="align-middle"
+                                                                        button={
+                                                                            <span
+                                                                                className={`badge rounded-full capitalize hover:top-0 hover:text-white ${
+                                                                                    task.priority === 'medium'
+                                                                                        ? 'badge-outline-primary hover:bg-primary'
+                                                                                        : task.priority === 'low'
+                                                                                        ? 'badge-outline-warning hover-bg-warning'
+                                                                                        : task.priority === 'high'
+                                                                                        ? 'badge-outline-danger hover-bg-danger'
+                                                                                        : task.priority === 'medium' && isPriorityMenu === task.id
+                                                                                        ? 'text-white bg-primary'
+                                                                                        : task.priority === 'low' && isPriorityMenu === task.id
+                                                                                        ? 'text-white bg-warning'
+                                                                                        : task.priority === 'high' && isPriorityMenu === task.id
+                                                                                        ? 'text-white bg-danger'
+                                                                                        : ''
+                                                                                }`}
+                                                                            >
+                                                                                {task.priority}
+                                                                            </span>
+                                                                        }
+                                                                    >
+                                                                        <ul className="text-sm text-medium">
+                                                                            <li>
+                                                                                <button type="button" className="w-full text-danger text-left" onClick={() => setPriority(task, 'high')}>
+                                                                                    High
+                                                                                </button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" className="w-full text-primary text-left" onClick={() => setPriority(task, 'medium')}>
+                                                                                    Medium
+                                                                                </button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" className="w-full text-warning text-left" onClick={() => setPriority(task, 'low')}>
+                                                                                    Low
+                                                                                </button>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </Dropdown>
+                                                                </div>
+                                                            )}
+
+                                                            {task.tag && (
+                                                                <div className="dropdown">
+                                                                    <Dropdown
+                                                                        offset={[0, 5]}
+                                                                        placement="bottom-end"
+                                                                        btnClassName="align-middle"
+                                                                        button={
+                                                                            <span
+                                                                                className={`badge rounded-full capitalize hover:top-0 hover:text-white ${
+                                                                                    task.tag === 'exercise'
+                                                                                        ? 'badge-outline-success hover:bg-success'
+                                                                                        : task.tag === 'work'
+                                                                                        ? 'badge-outline-info hover-bg-info'
+                                                                                        : ''
+                                                                                }`}
+                                                                            >
+                                                                                {task.tag}
+                                                                            </span>
+                                                                        }
+                                                                    >
+                                                                        <ul className="text-sm text-medium">
+                                                                            <li>
+                                                                                <button type="button" className="text-success" onClick={() => setTag(task, 'exercise')}>
+                                                                                    Exercise
+                                                                                </button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" className="text-info" onClick={() => setTag(task, 'work')}>
+                                                                                    Work
+                                                                                </button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="button" onClick={() => setPriority(task, '')}>
+                                                                                    None
+                                                                                </button>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </Dropdown>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                    <td className="w-1">
+                                                        <p className={`whitespace-nowrap text-white-dark font-medium ${task.status === 'complete' ? 'line-through' : ''}`}>{task.date}</p>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
                     </div>
                 </div>
             </div>
